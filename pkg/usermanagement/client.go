@@ -241,10 +241,11 @@ type AuthenticateWithPasswordOpts struct {
 }
 
 type AuthenticateWithCodeOpts struct {
-	ClientID  string `json:"client_id"`
-	Code      string `json:"code"`
-	IPAddress string `json:"ip_address,omitempty"`
-	UserAgent string `json:"user_agent,omitempty"`
+	ClientID     string `json:"client_id"`
+	Code         string `json:"code"`
+	IPAddress    string `json:"ip_address,omitempty"`
+	UserAgent    string `json:"user_agent,omitempty"`
+	CodeVerifier string `json:"code_verifier,omitempty"`
 }
 
 type AuthenticateWithRefreshTokenOpts struct {
@@ -896,7 +897,7 @@ func (c *Client) AuthenticateWithPassword(ctx context.Context, opts Authenticate
 func (c *Client) AuthenticateWithCode(ctx context.Context, opts AuthenticateWithCodeOpts) (AuthenticateResponse, error) {
 	payload := struct {
 		AuthenticateWithCodeOpts
-		ClientSecret string `json:"client_secret"`
+		ClientSecret string `json:"client_secret,omitempty"`
 		GrantType    string `json:"grant_type"`
 	}{
 		AuthenticateWithCodeOpts: opts,
