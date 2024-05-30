@@ -904,7 +904,9 @@ func (c *Client) AuthenticateWithCode(ctx context.Context, opts AuthenticateWith
 		ClientSecret:             c.APIKey,
 		GrantType:                "authorization_code",
 	}
-
+	if opts.CodeVerifier == "" && payload.ClientSecret == "" {
+		return AuthenticateResponse{}, errors.New("client_secret or code_verifier must be present")
+	}
 	jsonData, err := json.Marshal(payload)
 	if err != nil {
 		return AuthenticateResponse{}, err
